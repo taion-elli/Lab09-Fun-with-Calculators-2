@@ -1,5 +1,4 @@
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -17,27 +16,37 @@ class calcTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+
+        eng = new CalcEngine();
+        ui = new UserInterface(eng);
 	}
 
 	@Test
 	void test() {
 
-	        eng = new CalcEngine();
-	        ui = new UserInterface(eng);
-
 	        eng.numberPressedStringBuilder("34");
 	        eng.numberPressedStringBuilder("*");
 	        eng.numberPressedStringBuilder("5");
+	        eng.numberPressedStringBuilder("6");
 	        eng.numberPressedStringBuilder("+");
 	        eng.equals();
 
-	        assertEquals("23", eng.getDisplayValue());
-	    }
-	
-	void test2() {
+	        assertEquals("34", eng.getDisplayValue());
+	    }	
+	@Test
+	void test1() {
 
-		eng = new CalcEngine();
-		ui = new UserInterface(eng);
+	        eng.numberPressedStringBuilder("34");
+	        eng.numberPressedStringBuilder("+");
+	        eng.numberPressedStringBuilder("5");
+	        eng.numberPressedStringBuilder("6");
+	        eng.numberPressedStringBuilder("*");
+	        eng.equals();
+
+	        assertEquals("34", eng.getDisplayValue());
+	    }
+	@Test 
+	void test2() {
     
 		eng.numberPressedStringBuilder("39");
 		eng.numberPressedStringBuilder("+");
@@ -47,11 +56,8 @@ class calcTest {
 
 		assertEquals("57", eng.getDisplayValue());
 	}
-	
+	@Test 
 	void test3() {
-
-		eng = new CalcEngine();
-		ui = new UserInterface(eng);
     
 		eng.numberPressedStringBuilder("123456");
 		eng.numberPressedStringBuilder("*");
@@ -61,21 +67,52 @@ class calcTest {
 
 		assertEquals("5", eng.getDisplayValue());
 	}
-	
-	void test4() throws IOException {
-
-		eng = new CalcEngine();
-		ui = new UserInterface(eng);
-		String e = "only enter valid numbers and operators!";
-		eng.numberPressedStringBuilder("hallo");
-		eng.numberPressedStringBuilder("*");
-        eng.numberPressedStringBuilder("du");
-        eng.numberPressedStringBuilder("+");
-		eng.equals();
+	@Test 
+	void test4() {
 		
-		assertEquals("5", eng.getDisplayValue());
+		eng.numberPressedStringBuilder("*");
+		assertEquals(2, eng.precedence('*'));
 	}
-	
+	@Test 
+	void test5() {
+		
+		eng.numberPressedStringBuilder("+");
+		assertEquals(1, eng.precedence('+'));
+	}
+	@Test 
+	void test6() {
+	    
+		eng.numberPressedStringBuilder("12");
+		eng.numberPressedStringBuilder("+");
+		eng.numberPressedStringBuilder("7");
+		eng.numberPressedStringBuilder("*");
+	    eng.numberPressedStringBuilder("3");
+		eng.numberPressedStringBuilder("*");
+		eng.numberPressedStringBuilder("6");
+		eng.numberPressedStringBuilder("+");
+	    eng.numberPressedStringBuilder("2");
+		eng.equals();
+
+		assertEquals("130", eng.getDisplayValue());
+	}	
+	@Test 
+	void test7() {
+	    
+		eng.numberPressedStringBuilder("12");
+		eng.numberPressedStringBuilder("+");
+		eng.numberPressedStringBuilder("7");
+		eng.numberPressedStringBuilder("*");
+		eng.numberPressedStringBuilder("(");
+	    eng.numberPressedStringBuilder("3");
+		eng.numberPressedStringBuilder("+");
+		eng.numberPressedStringBuilder("6");
+		eng.numberPressedStringBuilder(")");
+		eng.numberPressedStringBuilder("+");
+	    eng.numberPressedStringBuilder("2");
+		eng.equals();
+
+		assertEquals("67", eng.getDisplayValue());
+	}
 }
 
 
