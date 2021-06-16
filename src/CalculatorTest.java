@@ -96,5 +96,60 @@ class CalculatorTest {
 		assertEquals("7", eng.getDisplayString());
 	}
 	
+	@Test
+	void test4() {
+		eng.numberPressed("333");
+		eng.applyOperator("+");
+		eng.numberPressed("444");
+		eng.applyOperator("*");
+		eng.numberPressed("555");
+		eng.applyOperator("/");
+		eng.applyOperator("*");
+		eng.numberPressed("555");
+		eng.applyOperator("*");
+		eng.applyOperator("+");
+		try {
+			eng.equals();
+		} catch (StackOverflow | StackUnderflow e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("134", eng.getDisplayString());
+	}
+	
+	@Test
+	void test5() {
+		eng.numberPressed("138736");
+		eng.applyOperator("*");
+		eng.applyOperator("+");
+		eng.applyOperator("/");
+		eng.applyOperator("-");
+		eng.numberPressed("34567");
+		try {
+			eng.equals();
+		} catch (StackOverflow | StackUnderflow e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("1", eng.getDisplayString());
+	}
+	
+	@Test
+	void test6() {
+		eng.numberPressed("98742");
+		eng.applyOperator("*");
+		eng.numberPressed("242515");
+		eng.applyOperator("+");
+		eng.numberPressed("3636");
+		eng.applyOperator("/");
+		try {
+			eng.equals();
+		} catch (StackOverflow | StackUnderflow e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("8", eng.getDisplayString());
+	}
+	
 	
 }
